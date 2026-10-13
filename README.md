@@ -68,7 +68,8 @@ docker compose exec api php artisan test
 | T-02 · Migración inicial | Hecho | `database/migrations/2026_10_13_000000_create_library_schema.php`: seis tablas sin `DEFAULT`, `book.version`, `CHECK`, FK `RESTRICT`, índices parciales y las cinco categorías |
 | T-18 · Invariantes en el motor | Hecho en T-02 | Un `INSERT` por `psql` con ISBN inválido falla por `ck_book_isbn_digits` |
 | T-03 · Objetos de valor `Isbn`, `Quantity`, `DateRange` | Hecho | `app/Domain/ValueObjects`; pruebas en `tests/Unit/Domain` |
-| T-04 a T-17 · Entidades, casos de uso, adaptadores y autenticación | Pendiente | — |
+| T-04 · Entidad `Book` (`withdraw`, `restock`, baja lógica) | Hecho | `app/Domain/Entities/Book.php`; `tests/Unit/Domain/BookTest.php` |
+| T-05 a T-17 · `Loan`, `Member`, `User`, casos de uso, adaptadores y autenticación | Pendiente | — |
 | T-19 · Pruebas de arquitectura | Pendiente | — |
 
 Cuerpo de error único (RNF-4): todo error responde `{ "code", "message", "details" }`, sin trazas, desde
