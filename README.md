@@ -48,3 +48,29 @@ No hay prórroga: suban avances parciales con commits pequeños durante la prueb
 | [`test-manager-library-3145556-page`](https://github.com/code-sena/test-manager-library-3145556-page) | Sitio público estático de presentación |
 | [`test-manager-library-3145556-infra`](https://github.com/code-sena/test-manager-library-3145556-infra) | Contenedores, red, volúmenes y motor de base de datos vacío |
 | [`test-manager-library-3145556-tool`](https://github.com/code-sena/test-manager-library-3145556-tool) | Utilidades: sembrador de datos de demostración |
+
+## Cómo se ejecuta
+
+La forma recomendada es con el repositorio `infra`: `docker compose up -d` levanta la base vacía y esta API, que aplica las
+migraciones al arrancar. La API responde en `http://localhost:8000/api/v1/health`.
+
+Pruebas, dentro del contenedor:
+
+```bash
+docker compose exec api php artisan test
+```
+
+## Estado
+
+| Tarea | Estado | Evidencia |
+|---|---|---|
+| T-01 · Esqueleto y `GET /health` | Hecho | `GET /api/v1/health` → `{"status":"ok"}`; `tests/Feature/HealthTest.php` |
+| T-02 · Migración inicial | Hecho | `database/migrations/2026_10_13_000000_create_library_schema.php`: seis tablas sin `DEFAULT`, `book.version`, `CHECK`, FK `RESTRICT`, índices parciales y las cinco categorías |
+| T-18 · Invariantes en el motor | Hecho en T-02 | Un `INSERT` por `psql` con ISBN inválido falla por `ck_book_isbn_digits` |
+| T-03 a T-17 · Dominio, casos de uso, adaptadores y autenticación | Pendiente | — |
+| T-19 · Pruebas de arquitectura | Pendiente | — |
+
+Cuerpo de error único (RNF-4): todo error responde `{ "code", "message", "details" }`, sin trazas, desde
+`app/Adapters/Http/Errors/ErrorResponse.php`.
+
+Las decisiones tomadas sobre el spec están en `spec-review.md`, en el repositorio `docs`.
