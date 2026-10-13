@@ -75,7 +75,8 @@ docker compose exec api php artisan test
 | T-08 · Casos de uso de libros con fakes | En progreso: crear, editar y dar de baja hechos; faltan búsqueda y portada | `app/Application/Services/ManageBooksService.php`; `tests/Unit/Application/ManageBooksServiceTest.php` |
 | T-09 · Caso de uso prestar con fakes | Hecho | `app/Application/Services/LendBooksService.php`; `tests/Unit/Application/LendBooksServiceTest.php` |
 | T-10 · Devolver y vencidos | Hecho | `ReturnItemService` y `OverdueService` en `app/Application/Services`; pruebas en `tests/Unit/Application` |
-| T-11 a T-17 · Reporte, adaptadores de persistencia y seguridad, rutas HTTP y arranque | Pendiente | — |
+| T-11 · Reporte de más prestados | Hecho en aplicación; falta la consulta SQL del adaptador | `app/Application/Services/MostBorrowedReportService.php`; `tests/Unit/Application/MostBorrowedReportServiceTest.php` |
+| T-12 a T-17 · Adaptadores de persistencia y seguridad (JWT), portadas, rutas HTTP y arranque | Pendiente | — |
 | T-19 · Pruebas de arquitectura (artículos I y II) | Hecho | `tests/Unit/Architecture/LayerDependenciesTest.php`: falla y nombra el archivo si el dominio o la aplicación importan el framework o los adaptadores |
 
 Cuerpo de error único (RNF-4): todo error, incluidos los de negocio con su código del contrato, responde `{ "code", "message", "details" }`, sin trazas, desde
