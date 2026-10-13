@@ -26,7 +26,7 @@ class ManageBooksServiceTest extends TestCase
         $this->books = new InMemoryBookRepository();
         $this->service = new ManageBooksService(
             $this->books,
-            new InMemoryCategoryRepository([self::NOVEL]),
+            new InMemoryCategoryRepository([self::NOVEL => 'Novela']),
             new SequentialIdGenerator(),
             new FixedClock(new DateTimeImmutable('2026-10-13T12:00:00Z')),
         );
