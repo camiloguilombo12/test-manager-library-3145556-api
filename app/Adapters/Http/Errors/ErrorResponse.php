@@ -4,6 +4,7 @@ namespace App\Adapters\Http\Errors;
 
 use App\Application\Errors\BookHasOpenLoans;
 use App\Application\Errors\InvalidCredentials;
+use App\Application\Errors\InvalidDateRange;
 use App\Application\Errors\IsbnTaken;
 use App\Application\Errors\MemberHasOverdue;
 use App\Application\Errors\MemberLimitExceeded;
@@ -52,6 +53,7 @@ final class ErrorResponse
             $exception instanceof MemberLimitExceeded => self::make(422, 'MEMBER_LIMIT_EXCEEDED', $exception->getMessage(), [
                 ['field' => 'items', 'issue' => "sin devolver: {$exception->currentCount}"],
             ]),
+            $exception instanceof InvalidDateRange => self::make(422, 'INVALID_DATE_RANGE', $exception->getMessage()),
             $exception instanceof DuplicateBookInLoan => self::make(422, 'DUPLICATE_BOOK_IN_LOAN', $exception->getMessage()),
             $exception instanceof InvalidValue => self::make(422, 'VALIDATION_ERROR', $exception->getMessage(), [
                 ['field' => $exception->field, 'issue' => $exception->getMessage()],

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Adapters\Http\Errors\ErrorResponse;
 use App\Application\Errors\InvalidCredentials;
+use App\Application\Errors\InvalidDateRange;
 use App\Application\Errors\IsbnTaken;
 use App\Application\Errors\MemberHasOverdue;
 use App\Application\Errors\MemberLimitExceeded;
@@ -33,6 +34,7 @@ class ErrorResponseTest extends TestCase
             'ya devuelto' => [new ItemAlreadyReturned('item-1'), 409, 'ITEM_ALREADY_RETURNED'],
             'límite del socio' => [new MemberLimitExceeded(2), 422, 'MEMBER_LIMIT_EXCEEDED'],
             'libro repetido' => [new DuplicateBookInLoan('book-1'), 422, 'DUPLICATE_BOOK_IN_LOAN'],
+            'rango invertido' => [new InvalidDateRange('La fecha final no puede ser anterior a la inicial.'), 422, 'INVALID_DATE_RANGE'],
             'valor inválido' => [new InvalidValue('isbn', 'El ISBN debe tener 13 dígitos.'), 422, 'VALIDATION_ERROR'],
             'defecto interno' => [new StockOutOfRange('detalle interno'), 500, 'INTERNAL_ERROR'],
         ];
