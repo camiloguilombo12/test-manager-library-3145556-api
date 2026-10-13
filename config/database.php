@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +95,8 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public',
+            // Las tablas del modelo viven en el esquema library (data-model.md)
+            'search_path' => 'library,public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
@@ -128,7 +129,8 @@ return [
     */
 
     'migrations' => [
-        'table' => 'migrations',
+        // La tabla de control queda fuera de library para que solo existan las seis tablas del modelo
+        'table' => 'public.migrations',
         'update_date_on_publish' => true,
     ],
 
