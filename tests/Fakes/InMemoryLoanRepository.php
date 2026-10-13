@@ -11,6 +11,11 @@ final class InMemoryLoanRepository implements LoanRepository
     /** @var Loan[] */
     public array $loans = [];
 
+    public function findById(string $id): ?Loan
+    {
+        return $this->loans[$id] ?? null;
+    }
+
     public function countUnreturnedItems(string $memberId): int
     {
         $count = 0;
