@@ -70,7 +70,8 @@ docker compose exec api php artisan test
 | T-03 · Objetos de valor `Isbn`, `Quantity`, `DateRange` | Hecho | `app/Domain/ValueObjects`; pruebas en `tests/Unit/Domain` |
 | T-04 · Entidad `Book` (`withdraw`, `restock`, baja lógica) | Hecho | `app/Domain/Entities/Book.php`; `tests/Unit/Domain/BookTest.php` |
 | T-05 · Entidad `Loan` (líneas, 14 días, máx. 3, estado calculado) | Hecho | `app/Domain/Entities/Loan.php`; `tests/Unit/Domain/LoanTest.php` con `Clock` falso |
-| T-06 a T-17 · `Member`, `User`, casos de uso, adaptadores y autenticación | Pendiente | — |
+| T-06 · Entidades `Member` y `User` (nombre normalizado, rol válido) | Hecho | `app/Domain/Entities`; `tests/Unit/Domain/UserAndMemberTest.php` |
+| T-07 a T-17 · Casos de uso, adaptadores y autenticación | Pendiente | — |
 | T-19 · Pruebas de arquitectura | Pendiente | — |
 
 Cuerpo de error único (RNF-4): todo error responde `{ "code", "message", "details" }`, sin trazas, desde
