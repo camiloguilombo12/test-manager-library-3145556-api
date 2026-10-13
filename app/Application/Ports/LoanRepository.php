@@ -8,6 +8,8 @@ use DateTimeImmutable;
 
 interface LoanRepository
 {
+    public function findById(string $id): ?Loan;
+
     public function countUnreturnedItems(string $memberId): int;
 
     public function memberHasOverdueItems(string $memberId, DateTimeImmutable $now): bool;
