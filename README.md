@@ -74,11 +74,11 @@ docker compose exec api php artisan test
 | T-07 · Casos de uso de autenticación con fakes | Hecho | `app/Application/Services`; `tests/Unit/Application/AuthServicesTest.php` |
 | T-08 · Casos de uso de libros con fakes | En progreso: crear, editar y dar de baja hechos; faltan búsqueda y portada | `app/Application/Services/ManageBooksService.php`; `tests/Unit/Application/ManageBooksServiceTest.php` |
 | T-09 · Caso de uso prestar con fakes | Hecho | `app/Application/Services/LendBooksService.php`; `tests/Unit/Application/LendBooksServiceTest.php` |
-| T-10 · Devolver y vencidos | En progreso: devolución hecha; falta el listado de vencidos | `app/Application/Services/ReturnItemService.php`; `tests/Unit/Application/ReturnItemServiceTest.php` |
+| T-10 · Devolver y vencidos | Hecho | `ReturnItemService` y `OverdueService` en `app/Application/Services`; pruebas en `tests/Unit/Application` |
 | T-11 a T-17 · Reporte, adaptadores de persistencia y seguridad, rutas HTTP y arranque | Pendiente | — |
 | T-19 · Pruebas de arquitectura (artículos I y II) | Hecho | `tests/Unit/Architecture/LayerDependenciesTest.php`: falla y nombra el archivo si el dominio o la aplicación importan el framework o los adaptadores |
 
-Cuerpo de error único (RNF-4): todo error responde `{ "code", "message", "details" }`, sin trazas, desde
+Cuerpo de error único (RNF-4): todo error, incluidos los de negocio con su código del contrato, responde `{ "code", "message", "details" }`, sin trazas, desde
 `app/Adapters/Http/Errors/ErrorResponse.php`.
 
 Las decisiones tomadas sobre el spec están en `spec-review.md`, en el repositorio `docs`.
