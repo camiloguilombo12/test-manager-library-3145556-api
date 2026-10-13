@@ -2,6 +2,18 @@
 
 namespace App\Adapters\Http\Errors;
 
+use App\Application\Errors\BookHasOpenLoans;
+use App\Application\Errors\InvalidCredentials;
+use App\Application\Errors\IsbnTaken;
+use App\Application\Errors\MemberHasOverdue;
+use App\Application\Errors\MemberLimitExceeded;
+use App\Application\Errors\ResourceNotFound;
+use App\Application\Errors\UsernameTaken;
+use App\Domain\Errors\BookNotAvailable;
+use App\Domain\Errors\DuplicateBookInLoan;
+use App\Domain\Errors\InvalidValue;
+use App\Domain\Errors\ItemAlreadyReturned;
+use App\Domain\Errors\LoanItemNotFound;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +23,7 @@ use Throwable;
 
 /**
  * Traduce cualquier error al cuerpo único del contrato: { code, message, details } (RNF-4).
+ * Es el único lugar donde un error del dominio o de la aplicación se convierte en código HTTP (architecture.md §5).
  * Nunca incluye trazas, SQL ni rutas del servidor.
  */
 final class ErrorResponse
@@ -23,6 +36,27 @@ final class ErrorResponse
             // Un archivo más grande de lo permitido es un error de validación (spec-review.md, A-09)
             $exception instanceof PostTooLargeException => self::make(422, 'VALIDATION_ERROR', 'El archivo supera el tamaño permitido.'),
             $exception instanceof HttpExceptionInterface => self::fromHttpStatus($exception->getStatusCode()),
+
+            // Errores de negocio (api-contract.md §2)
+            $exception instanceof InvalidCredentials => self::make(401, 'INVALID_CREDENTIALS', $exception->getMessage()),
+            $exception instanceof ResourceNotFound,
+            $exception instanceof LoanItemNotFound => self::make(404, 'NOT_FOUND', $exception->getMessage()),
+            $exception instanceof UsernameTaken => self::make(409, 'USERNAME_TAKEN', $exception->getMessage()),
+            $exception instanceof IsbnTaken => self::make(409, 'ISBN_TAKEN', $exception->getMessage()),
+            $exception instanceof BookHasOpenLoans => self::make(409, 'BOOK_HAS_OPEN_LOANS', $exception->getMessage()),
+            $exception instanceof BookNotAvailable => self::make(409, 'BOOK_NOT_AVAILABLE', $exception->getMessage(), [
+                ['field' => 'book_id', 'issue' => 'sin ejemplares'],
+            ]),
+            $exception instanceof MemberHasOverdue => self::make(409, 'MEMBER_HAS_OVERDUE', $exception->getMessage()),
+            $exception instanceof ItemAlreadyReturned => self::make(409, 'ITEM_ALREADY_RETURNED', $exception->getMessage()),
+            $exception instanceof MemberLimitExceeded => self::make(422, 'MEMBER_LIMIT_EXCEEDED', $exception->getMessage(), [
+                ['field' => 'items', 'issue' => "sin devolver: {$exception->currentCount}"],
+            ]),
+            $exception instanceof DuplicateBookInLoan => self::make(422, 'DUPLICATE_BOOK_IN_LOAN', $exception->getMessage()),
+            $exception instanceof InvalidValue => self::make(422, 'VALIDATION_ERROR', $exception->getMessage(), [
+                ['field' => $exception->field, 'issue' => $exception->getMessage()],
+            ]),
+
             default => self::make(500, 'INTERNAL_ERROR', 'Ocurrió un error inesperado.'),
         };
     }
