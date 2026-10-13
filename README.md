@@ -76,7 +76,7 @@ docker compose exec api php artisan test
 | T-09 · Caso de uso prestar con fakes | Hecho | `app/Application/Services/LendBooksService.php`; `tests/Unit/Application/LendBooksServiceTest.php` |
 | T-10 · Devolver y vencidos | En progreso: devolución hecha; falta el listado de vencidos | `app/Application/Services/ReturnItemService.php`; `tests/Unit/Application/ReturnItemServiceTest.php` |
 | T-11 a T-17 · Reporte, adaptadores de persistencia y seguridad, rutas HTTP y arranque | Pendiente | — |
-| T-19 · Pruebas de arquitectura | Pendiente | — |
+| T-19 · Pruebas de arquitectura (artículos I y II) | Hecho | `tests/Unit/Architecture/LayerDependenciesTest.php`: falla y nombra el archivo si el dominio o la aplicación importan el framework o los adaptadores |
 
 Cuerpo de error único (RNF-4): todo error responde `{ "code", "message", "details" }`, sin trazas, desde
 `app/Adapters/Http/Errors/ErrorResponse.php`.
