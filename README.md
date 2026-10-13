@@ -72,7 +72,8 @@ docker compose exec api php artisan test
 | T-05 · Entidad `Loan` (líneas, 14 días, máx. 3, estado calculado) | Hecho | `app/Domain/Entities/Loan.php`; `tests/Unit/Domain/LoanTest.php` con `Clock` falso |
 | T-06 · Entidades `Member` y `User` (nombre normalizado, rol válido) | Hecho | `app/Domain/Entities`; `tests/Unit/Domain/UserAndMemberTest.php` |
 | T-07 · Casos de uso de autenticación con fakes | Hecho | `app/Application/Services`; `tests/Unit/Application/AuthServicesTest.php` |
-| T-08 a T-17 · Casos de uso de libros y préstamos, adaptadores y rutas HTTP | Pendiente | — |
+| T-08 · Casos de uso de libros con fakes | En progreso: crear, editar y dar de baja hechos; faltan búsqueda y portada | `app/Application/Services/ManageBooksService.php`; `tests/Unit/Application/ManageBooksServiceTest.php` |
+| T-09 a T-17 · Préstamos, devoluciones, reporte, adaptadores y rutas HTTP | Pendiente | — |
 | T-19 · Pruebas de arquitectura | Pendiente | — |
 
 Cuerpo de error único (RNF-4): todo error responde `{ "code", "message", "details" }`, sin trazas, desde
